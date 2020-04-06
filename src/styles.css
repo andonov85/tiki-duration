@@ -1,0 +1,49 @@
+.duration-picker {
+    position: relative;
+}
+
+.dp-amount--container {
+    display: inline-block;
+}
+
+.dp-amount--preview {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.dp-amount--preview__unit {
+    /* margin-left: -4px; */
+}
+
+.dp-amount--input {
+    position: absolute;
+    /* height: 80px;
+    width: 100px; */
+    border: 1px solid grey;
+    border-radius: 8px;
+    background: white;
+}
+
+.dp-amount--input input {
+    /* width: 100%; */
+    border: none;
+    font-weight: bold;
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.dp-amount--input input {
+    -moz-appearance:textfield;
+}
+
+.dp-amount--input input::-webkit-outer-spin-button,
+.dp-amount--input input::-webkit-inner-spin-button {
+    display: none;
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+.dp-amount--hidden {
+    display: none;
+}
