@@ -4,32 +4,33 @@
 
 .dp-amount--container {
     display: inline-block;
+    margin-right: 5px;
 }
 
 .dp-amount--preview {
     cursor: pointer;
-    margin-right: 5px;
 }
 
 .dp-amount--preview__unit {
-    /* margin-left: -4px; */
+    margin-left: 1px;
 }
 
 .dp-amount--input {
     position: absolute;
-    /* height: 80px;
-    width: 100px; */
-    border: 1px solid grey;
-    border-radius: 8px;
+    padding: 10px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0px 4px 20px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 4px 20px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 4px 20px -7px rgba(0,0,0,0.75);
     background: white;
 }
 
 .dp-amount--input input {
-    /* width: 100%; */
+    width: 100%;
+    outline: none;
     border: none;
     font-weight: bold;
     font-size: 2rem;
-    padding: 15px;
     border-radius: 8px;
 }
 
@@ -44,6 +45,6 @@
     margin: 0; 
 }
 
-.dp-amount--hidden {
-    display: none;
+.dp-amount--input__label {
+    font-weight: bold; 
 }

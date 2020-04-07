@@ -9,6 +9,7 @@
 			v-on:input="handleChange"
 			:value="value"
 		>
+		<div class="dp-amount--input__label">{{ unit }}</div>
     </div>
 </template>
 
