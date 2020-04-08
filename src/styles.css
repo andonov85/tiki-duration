@@ -15,7 +15,10 @@
     margin-left: 1px;
 }
 
-.dp-amount--input {
+.dp-amount--input__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     padding: 10px;
     border-radius: 4px;
@@ -25,26 +28,83 @@
     background: white;
 }
 
-.dp-amount--input input {
-    width: 100%;
+.dp-amount--input__wrapper input {
+    width: 59%;
     outline: none;
     border: none;
-    font-weight: bold;
-    font-size: 2rem;
+    font-size: 2.7rem;
     border-radius: 8px;
 }
 
-.dp-amount--input input {
+.dp-amount--input__wrapper input {
     -moz-appearance:textfield;
 }
 
-.dp-amount--input input::-webkit-outer-spin-button,
-.dp-amount--input input::-webkit-inner-spin-button {
+.dp-amount--input__wrapper input::-webkit-outer-spin-button,
+.dp-amount--input__wrapper input::-webkit-inner-spin-button {
     display: none;
     -webkit-appearance: none; 
     margin: 0; 
 }
 
 .dp-amount--input__label {
-    font-weight: bold; 
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.dp-amount--input__unit {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+    font-weight: bold;
+    width: 71px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.dp-amount--input__unit:active {
+    background-color: #f2f2f2;
+}
+
+.dp-amount--input__unit.active {
+    background-color: #89cff0;
+}
+
+.dp-amount--input__left-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dp-amount--input__right-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dp-amount--input__controls .dp-amount--input__btn {
+    display: inline-block;
+    cursor: pointer;
+    width: 63px;
+    height: 43px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.dp-amount--input__controls .dp-amount--input__btn:first-child {
+    border-right: 1px lightgrey solid;
+}
+
+.dp-amount--input__controls .dp-amount--input__btn:active {
+    color: #89cff0;
+}
+
+/* Utils */
+.unselectable {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }

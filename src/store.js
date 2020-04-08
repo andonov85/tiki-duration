@@ -9,7 +9,7 @@ export const store = {
         duration.units.reverse();
         this.state.duration = duration;
     },
-    setDurationAmount(value, unit) {
+    setDurationValue(value, unit) {
         this.state.duration.amounts[unit] = value;
     },
     getAmountAfter(unit) {
