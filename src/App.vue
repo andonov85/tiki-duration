@@ -7,17 +7,11 @@
 
 <script>
 import DurationPicker from "./components/DurationPicker";
-// import { store } from "./store.js";
 
 export default {
     name: "DurationPickerApp",
     components: {
         DurationPicker: DurationPicker
-    },
-    // data: function() {
-    //     return {
-    //         duration: store.state.duration
-    //     };
-    // }
+    }
 };
 </script>

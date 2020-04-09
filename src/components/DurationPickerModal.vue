@@ -18,17 +18,11 @@
                     v-on:mousedown="startSubtraction"
                     v-on:mouseleave="stopSubtraction"
                     v-on:mouseup="stopSubtraction"
-                    v-on:touchstart="startSubtraction"
-                    v-on:touchend="stopSubtraction"
-                    v-on:touchcancel="stopSubtraction"
                 >-</div>
                 <div class="dp-amount--input__btn unselectable"
                     v-on:mousedown="startAddition"
                     v-on:mouseleave="stopAddition"
                     v-on:mouseup="stopAddition"
-                    v-on:touchstart="startAddition"
-                    v-on:touchend="stopAddition"
-                    v-on:touchcancel="stopAddition"
                 >+</div>
             </div>
         </div>
@@ -123,6 +117,7 @@ export default {
         stopSubtraction: function () {
             clearInterval(this.interval);
             this.interval = false;
+            this.$refs.input.focus();
         },
         startAddition: function () {
             if (!this.interval) {
@@ -133,6 +128,7 @@ export default {
         stopAddition: function () {
             clearInterval(this.interval);
             this.interval = false;
+            this.$refs.input.focus();
         }
 	}
 };
