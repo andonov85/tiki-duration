@@ -1,16 +1,15 @@
 <template>
-    <div class="dp-amount--input__wrapper" v-on:keydown.9="nextAmount">
+    <div class="dp-amount--input__wrapper" v-on:keydown="handleTabKeys">
         <div class="dp-amount--input__left-section">
             <input
                 ref="input"
                 class="numeric"
                 type="number"
                 placeholder="__"
-                min="0"
-                max="9999"
+                min="-1"
                 v-on:input="handleInput"
                 v-on:keypress="handleKeypress"
-                :value="value"
+                :value="convertValue"
             >
             <div class="dp-amount--input__label">{{ unit }}</div>
             <div class="dp-amount--input__controls">
@@ -60,17 +59,22 @@ export default {
             this.$refs.input.focus();
         });
     },
-	watch: {
-        initialUnit: function(newVal) {
-            this.value = this.duration.amounts[newVal];
-			this.unit = newVal;
-        }
-	},
 	updated: function () {
 		this.$nextTick(function () {
             this.$refs.input.focus();
 		})
     },
+    computed: {
+        convertValue: function() {
+            return store.setDurationValue(this.value, this.unit);
+        }
+    },
+    watch: {
+        initialUnit: function(newVal) {
+            this.value = this.duration.amounts[newVal];
+			this.unit = newVal;
+        }
+	},
 	methods: {
         handleKeypress: function (e) {
             if (e.target.value.length > 3) {
@@ -82,31 +86,49 @@ export default {
             if (isNaN(value)) {
                 value = 0;
             }
-            store.setDurationValue(value, this.unit);
+            // store.setDurationValue(value, this.unit);
             this.value = value;
+            // console.log(this.value, value);
         },
 		handleClickUnit: function(unit) {
             this.$refs.input.focus();
 			this.value = this.duration.amounts[unit];
             this.unit = unit;
-		},
-		nextAmount: function(e) {
-            e.preventDefault();
+        },
+        handleTabKeys: function(e) {
+            if (e.shiftKey && e.which === 9) {
+                e.preventDefault();
+                this.prevAmount();
+            } else if (e.which === 9) {
+                e.preventDefault();
+                this.nextAmount();
+            }
+        },
+		nextAmount: function() {
             const { value, unit } = store.getAmountAfter(this.unit);
+            this.value = value;
+            this.unit = unit;
+        },
+        prevAmount: function() {
+            const { value, unit } = store.getAmountBefore(this.unit);
 			this.value = value;
             this.unit = unit;
 		},
 		handleSubtraction: function () {
-            let newValue = this.value - 1;
-            if (newValue < 0) newValue = 0;
-            store.setDurationValue(newValue, this.unit);
+            let value = parseInt(this.$refs.input.value, 10);
+            let newValue = value - 1;
+            // if (newValue <= 0) newValue = 0;
+            // store.setDurationValue(newValue, this.unit);
             this.value = newValue;
+            console.log(this.value, value);
         },
         handleAddition: function () {
-            let newValue = this.value + 1;
-            if (newValue > 9999) newValue = 9999;
-            store.setDurationValue(newValue, this.unit);
+            let value = parseInt(this.$refs.input.value, 10);
+            let newValue = value + 1;
+            // if (newValue >= 9999) newValue = 9999;
+            // store.setDurationValue(newValue, this.unit);
             this.value = newValue;
+            console.log(this.value, value);
 		},
         startSubtraction: function () {
             if (!this.interval) {

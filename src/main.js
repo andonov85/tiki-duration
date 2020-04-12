@@ -17,8 +17,10 @@ new Vue({
   data: function () {
     return {
 			duration: {
-        "amounts":{"years":3,"months":5,"weeks":1,"days":3,"hours":20,"minutes":38,"seconds":9},
-        "units":["seconds","minutes","hours","days","weeks","months","years"]
+        // value: {"years":3,"months":5,"weeks":1,"days":3,"hours":20,"minutes":38,"seconds":9},
+        value: 108765489000,
+        // units: ["years","months","weeks","days","hours","minutes","seconds","milliseconds"],
+        units: ["days","hours","minutes","seconds"]
       }
 		}
   },
