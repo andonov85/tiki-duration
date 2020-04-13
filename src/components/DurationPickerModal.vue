@@ -69,7 +69,7 @@ export default {
     },
     computed: {
         convertValue: function() {
-            return store.setDurationValue(this.value, this.unit);
+            return store.state.duration.amounts[this.unit];
         }
     },
     watch: {
@@ -89,10 +89,7 @@ export default {
             if (isNaN(value)) {
                 value = 0;
             }
-            if (this.value === -1) {
-                this.value = 0;
-            }
-            this.value = value;
+            store.setDurationValue(value, this.unit);
         },
 		handleClickUnit: function(unit) {
             this.$refs.input.focus();
@@ -109,26 +106,22 @@ export default {
             }
         },
 		nextAmount: function() {
-            const { value, unit } = store.getAmountAfter(this.unit);
-            this.value = value;
+            const { unit } = store.getAmountAfter(this.unit);
             this.unit = unit;
         },
         prevAmount: function() {
-            const { value, unit } = store.getAmountBefore(this.unit);
-			this.value = value;
+            const { unit } = store.getAmountBefore(this.unit);
             this.unit = unit;
 		},
 		handleSubtraction: function () {
             let value = parseInt(this.$refs.input.value, 10);
             let newValue = value - 1;
-            // if (newValue <= 0) newValue = 0;
-            this.value = newValue;
+            store.setDurationValue(newValue, this.unit);
         },
         handleAddition: function () {
             let value = parseInt(this.$refs.input.value, 10);
             let newValue = value + 1;
-            // if (newValue >= 9999) newValue = 9999;
-            this.value = newValue;
+            store.setDurationValue(newValue, this.unit);
 		},
         startSubtraction: function () {
             if (!this.interval) {

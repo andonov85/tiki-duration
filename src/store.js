@@ -9,7 +9,8 @@ export const store = {
             amounts: null,
             units: null
         },
-        token: null
+        token: null,
+        lastPositiveFormated: null
     },
     __calcDuration(amounts) {
         const momentDuration = moment.duration(amounts);
@@ -21,9 +22,14 @@ export const store = {
                 trim: false,
                 trunc: true
             });
-        const newAmounts = JSON.parse(formated);
+        const isNegative = /[-]/.test(formated);
+        let newAmounts = JSON.parse(formated);
+        // Cache formated
+        if (!isNegative) this.lastPositiveFormated = formated;
+        // Replace negative format with last known positive
+        if (isNegative) newAmounts = JSON.parse(this.lastPositiveFormated);
+
         return {
-            isNegative: /[-]/.test(formated),
             momentDuration: momentDuration,
             amounts: newAmounts
         };
@@ -55,11 +61,8 @@ export const store = {
         clonedAmounts[unit] = value;
         const result = this.__calcDuration(clonedAmounts);
 
-        if (!result.isNegative) {
-            console.log(result.amounts)
-            this.state.duration.amounts = result.amounts;
-            this.state.duration.milliseconds = result.momentDuration.asMilliseconds();
-        }
+        this.state.duration.amounts = result.amounts;
+        this.state.duration.milliseconds = result.momentDuration.asMilliseconds();
 
         return this.state.duration.amounts[unit];
     },
