@@ -1,11 +1,11 @@
 <template>
-    <div class="duration-picker" v-click-outside="testFunc">
+    <div class="duration-picker" v-click-outside="handleCloseModal">
         <template v-for="(dUnit) in duration.units">
             <div class="dp-amount--container" v-on:click="handleOpenModal(dUnit, $event)" :key="dUnit">
                 <DurationPickerAmount :value="duration.amounts[dUnit]" :unit="dUnit"></DurationPickerAmount>
             </div>
         </template>
-		<DurationPickerModal v-if="show" :initialUnit="unit"></DurationPickerModal>
+		<DurationPickerModal v-if="show" :initialUnit="unit" :handleCloseModal="handleCloseModal"></DurationPickerModal>
     </div>
 </template>
 
@@ -28,13 +28,13 @@ export default {
 		}
     },
 	methods: {
-		testFunc: function () {
+		handleCloseModal: function () {
             this.show = false;
         },
 		handleOpenModal: function (unit) {
             this.unit = unit;
 			this.show = true;
-        }
+		}
 	},
 	directives: {
 		clickOutside: {

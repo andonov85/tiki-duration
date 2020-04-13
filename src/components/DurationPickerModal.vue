@@ -1,42 +1,42 @@
 <template>
-    <div class="dp-amount--input__wrapper" v-on:keydown="handleTabKeys">
-        <!-- <div class="dp-amount--input__header" style="height: 10px">
-            <span class="dp-amount--input__close" style="float: right">x</span>
-        </div> -->
-        <div class="dp-amount--input__left-section">
-            <input
-                ref="input"
-                class="numeric"
-                type="number"
-                placeholder="__"
-                min="-1"
-                v-on:input="handleInput"
-                v-on:keypress="handleKeypress"
-                :value="convertValue"
-            >
-            <div class="dp-amount--input__label">{{ unit }}</div>
-            <div class="dp-amount--input__controls">
-                <div class="dp-amount--input__btn unselectable" 
-                    v-on:mousedown="startSubtraction"
-                    v-on:mouseleave="stopSubtraction"
-                    v-on:mouseup="stopSubtraction"
-                >-</div>
-                <div class="dp-amount--input__btn unselectable"
-                    v-on:mousedown="startAddition"
-                    v-on:mouseleave="stopAddition"
-                    v-on:mouseup="stopAddition"
-                >+</div>
+    <div class="dp-amount--input__container" v-on:keydown="handleTabKeys">
+        <div class="dp-amount--input__close" v-on:click="handleCloseModal" title="close">x</div>
+        <div class="dp-amount--input__wrapper">
+            <div class="dp-amount--input__left-section">
+                <input
+                    ref="input"
+                    class="numeric"
+                    type="number"
+                    placeholder="__"
+                    min="-1"
+                    v-on:input="handleInput"
+                    v-on:keypress="handleKeypress"
+                    :value="convertValue"
+                >
+                <div class="dp-amount--input__label">{{ unit }}</div>
+                <div class="dp-amount--input__controls">
+                    <div class="dp-amount--input__btn unselectable" 
+                        v-on:mousedown="startSubtraction"
+                        v-on:mouseleave="stopSubtraction"
+                        v-on:mouseup="stopSubtraction"
+                    >-</div>
+                    <div class="dp-amount--input__btn unselectable"
+                        v-on:mousedown="startAddition"
+                        v-on:mouseleave="stopAddition"
+                        v-on:mouseup="stopAddition"
+                    >+</div>
+                </div>
             </div>
-        </div>
-        <div class="dp-amount--input__right-section">
-            <template v-for="(dUnit) in duration.units">
-                <span 
-                    class="dp-amount--input__unit unselectable"
-                    :class="{ active: dUnit === unit }"
-                    :key="dUnit"
-                    v-on:click="handleClickUnit(dUnit)"
-                >{{ dUnit }}</span>
-            </template>
+            <div class="dp-amount--input__right-section">
+                <template v-for="(dUnit) in duration.units">
+                    <span 
+                        class="dp-amount--input__unit unselectable"
+                        :class="{ active: dUnit === unit }"
+                        :key="dUnit"
+                        v-on:click="handleClickUnit(dUnit)"
+                    >{{ dUnit }}</span>
+                </template>
+            </div>
         </div>
     </div>
 </template>
@@ -55,7 +55,8 @@ export default {
 		}
 	},
 	props: {
-		initialUnit: String
+        initialUnit: String,
+        handleCloseModal: Function
 	},
     mounted: function () {
         this.$nextTick(function () {
@@ -81,7 +82,7 @@ export default {
 	methods: {
         handleKeypress: function (e) {
             if (e.target.value.length > 3) {
-                e.preventDefault();
+                // e.preventDefault();
             }
         },
         handleInput: function (e) {
