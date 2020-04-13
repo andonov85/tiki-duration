@@ -30,6 +30,7 @@ export const store = {
         if (isNegative) newAmounts = JSON.parse(this.lastPositiveFormated);
 
         return {
+            isNegative: isNegative,
             momentDuration: momentDuration,
             amounts: newAmounts
         };
@@ -62,7 +63,9 @@ export const store = {
         const result = this.__calcDuration(clonedAmounts);
 
         this.state.duration.amounts = result.amounts;
-        this.state.duration.milliseconds = result.momentDuration.asMilliseconds();
+        if (!result.isNegative) {
+            this.state.duration.milliseconds = result.momentDuration.asMilliseconds();
+        }
 
         return this.state.duration.amounts[unit];
     },
