@@ -5,6 +5,7 @@
                 <DurationPickerAmount :value="duration.amounts[dUnit]" :unit="dUnit"></DurationPickerAmount>
             </div>
         </template>
+		<input type="hidden" name="duration" :value="getMilliseconds">
 		<DurationPickerModal v-if="show" :initialUnit="unit" :handleCloseModal="handleCloseModal"></DurationPickerModal>
     </div>
 </template>
@@ -24,8 +25,14 @@ export default {
 		return {
             duration: store.state.duration,
             show: false,
-            unit: ''
+			unit: '',
+			milliseconds: store.state.duration.milliseconds
 		}
+	},
+	computed: {
+        getMilliseconds: function() {
+            return store.state.duration.milliseconds;
+        }
     },
 	methods: {
 		handleCloseModal: function () {
