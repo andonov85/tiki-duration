@@ -1,5 +1,8 @@
 <template>
     <div class="dp-amount--input__wrapper" v-on:keydown="handleTabKeys">
+        <!-- <div class="dp-amount--input__header" style="height: 10px">
+            <span class="dp-amount--input__close" style="float: right">x</span>
+        </div> -->
         <div class="dp-amount--input__left-section">
             <input
                 ref="input"
@@ -86,9 +89,10 @@ export default {
             if (isNaN(value)) {
                 value = 0;
             }
-            // store.setDurationValue(value, this.unit);
+            if (this.value === -1) {
+                this.value = 0;
+            }
             this.value = value;
-            // console.log(this.value, value);
         },
 		handleClickUnit: function(unit) {
             this.$refs.input.focus();
@@ -118,17 +122,13 @@ export default {
             let value = parseInt(this.$refs.input.value, 10);
             let newValue = value - 1;
             // if (newValue <= 0) newValue = 0;
-            // store.setDurationValue(newValue, this.unit);
             this.value = newValue;
-            console.log(this.value, value);
         },
         handleAddition: function () {
             let value = parseInt(this.$refs.input.value, 10);
             let newValue = value + 1;
             // if (newValue >= 9999) newValue = 9999;
-            // store.setDurationValue(newValue, this.unit);
             this.value = newValue;
-            console.log(this.value, value);
 		},
         startSubtraction: function () {
             if (!this.interval) {

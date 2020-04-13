@@ -18,10 +18,12 @@ export const store = {
                 useToLocaleString: false,
                 groupingSeparator: "",
                 usePlural: false,
+                trim: false,
                 trunc: true
             });
         const newAmounts = JSON.parse(formated);
         return {
+            isNegative: /[-]/.test(formated),
             momentDuration: momentDuration,
             amounts: newAmounts
         };
@@ -53,8 +55,11 @@ export const store = {
         clonedAmounts[unit] = value;
         const result = this.__calcDuration(clonedAmounts);
 
-        this.state.duration.amounts = result.amounts;
-        this.state.duration.milliseconds = result.momentDuration.asMilliseconds();
+        if (!result.isNegative) {
+            console.log(result.amounts)
+            this.state.duration.amounts = result.amounts;
+            this.state.duration.milliseconds = result.momentDuration.asMilliseconds();
+        }
 
         return this.state.duration.amounts[unit];
     },
