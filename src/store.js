@@ -22,7 +22,7 @@ export const store = {
                 trim: false,
                 trunc: true
             });
-        const isNegative = /[-]/.test(formated);
+        const isNegative = momentDuration.asMilliseconds() < 0;
         let newAmounts = JSON.parse(formated);
         // Cache formated
         if (!isNegative) this.lastPositiveFormated = formated;

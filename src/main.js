@@ -19,7 +19,7 @@ new Vue({
 			duration: {
         // value: {"years":3,"months":5,"weeks":1,"days":3,"hours":20,"minutes":38,"seconds":9},
         value: 108765489000,
-        units: ["years","months","weeks","days","hours","minutes","seconds","milliseconds"],
+        units: ["years","months","days","hours","minutes","seconds","milliseconds"],
         // units: ["years","months","weeks","minutes","seconds","milliseconds"],
         // units: ["days","hours","minutes","seconds"]
         // units: ["minutes","seconds"]
