@@ -16,18 +16,17 @@ export default {
     name: "DurationPickerTimer",
     data: function () {
         return {
-            interval: true,
+            interval: false,
             // startTime: null,
             // stopTime: null
         };
     },
     methods: {
         startTimer: function () {
-            this.interval = true;
-            let startMilliseconds = store.state.duration.milliseconds;
-            let startTime = moment(new Date()).toISOString();
-
-            if (this.interval) {
+            if (!this.interval) {
+                let startMilliseconds = store.state.duration.milliseconds;
+                let startTime = moment(new Date()).toISOString();
+                
                 this.interval = setInterval(function() {
                     let nowTime = moment(new Date());
                     let duration = moment.duration(moment(nowTime).diff(startTime));
