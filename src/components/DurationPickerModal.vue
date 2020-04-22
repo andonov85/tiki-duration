@@ -38,20 +38,26 @@
                 </template>
             </div>
         </div>
+        <DurationPickerTimer v-if="startStop"/>
     </div>
 </template>
 
 <script>
 import { store } from "../store.js";
+import DurationPickerTimer from "./DurationPickerTimer";
 
 export default {
 	name: "DurationPickerModal",
+    components: {
+        DurationPickerTimer: DurationPickerTimer,
+    },
 	data: function () {
 		return {
 			duration: store.state.duration,
 			value: store.state.duration.amounts[this.initialUnit],
             unit: this.initialUnit,
-            interval: false
+            interval: false,
+            startStop: store.state.duration.startStop
 		}
 	},
 	props: {

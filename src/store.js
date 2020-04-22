@@ -7,7 +7,8 @@ export const store = {
         duration: {
             milliseconds: null,
             amounts: null,
-            units: null
+            units: null,
+            startStop: false
         },
         token: null,
         lastPositiveFormated: null
@@ -50,12 +51,18 @@ export const store = {
         const token = '{' + formatedUnits.join(',') + '}';
         return token;
     },
-    setDuration(duration) {
+    setInitialDuration(duration) {
+        this.state.duration.startStop = duration.start_stop;
         this.state.token = this.__calcToken(duration.units);
         const result = this.__calcDuration(duration.value);
         this.state.duration.milliseconds = result.momentDuration.asMilliseconds();
         this.state.duration.amounts = result.amounts;
         this.state.duration.units = duration.units;
+    },
+    setDuration(value) {
+        const result = this.__calcDuration(value);
+        this.state.duration.milliseconds = result.momentDuration.asMilliseconds();
+        this.state.duration.amounts = result.amounts;
     },
     setDurationValue(value, unit) {
         const clonedAmounts = JSON.parse(JSON.stringify(this.state.duration.amounts));
