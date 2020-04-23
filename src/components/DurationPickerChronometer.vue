@@ -1,5 +1,5 @@
 <template>
-	<div class="dp-timer__container">
+	<div class="dp-chronometer__container">
         <div v-on:click="startTimer">start</div>
         <div v-on:click="stopTimer">stop</div>
         <div v-on:click="resetTimer">reset</div>
@@ -13,7 +13,7 @@ import momentDurationFormatSetup from 'moment-duration-format';
 momentDurationFormatSetup(moment);
 
 export default {
-    name: "DurationPickerTimer",
+    name: "DurationPickerChronometer",
     data: function () {
         return {
             interval: false,
@@ -21,6 +21,9 @@ export default {
             // stopTime: null
         };
     },
+    // beforeDestroy: function() {
+    //     clearInterval(this.interval);
+    // },
     methods: {
         startTimer: function () {
             if (!this.interval) {

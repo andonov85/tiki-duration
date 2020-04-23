@@ -7,8 +7,7 @@ export const store = {
         duration: {
             milliseconds: null,
             amounts: null,
-            units: null,
-            startStop: false
+            units: null
         },
         token: null,
         lastPositiveFormated: null
@@ -52,7 +51,6 @@ export const store = {
         return token;
     },
     setInitialDuration(duration) {
-        this.state.duration.startStop = duration.start_stop;
         this.state.token = this.__calcToken(duration.units);
         const result = this.__calcDuration(duration.value);
         this.state.duration.milliseconds = result.momentDuration.asMilliseconds();

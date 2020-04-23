@@ -1,157 +1,43 @@
 <template>
-    <div class="dp-amount--input__container" v-on:keydown="handleTabKeys">
-        <div class="dp-amount--input__close" v-on:click="handleCloseModal" title="close">x</div>
-        <div class="dp-amount--input__wrapper">
-            <div class="dp-amount--input__left-section">
-                <input
-                    ref="input"
-                    class="numeric"
-                    type="number"
-                    placeholder="__"
-                    min="-1"
-                    v-on:input="handleInput"
-                    v-on:keypress="handleKeypress"
-                    :value="convertValue"
-                >
-                <div class="dp-amount--input__label">{{ unit }}</div>
-                <div class="dp-amount--input__controls">
-                    <div class="dp-amount--input__btn unselectable" 
-                        v-on:mousedown="startSubtraction"
-                        v-on:mouseleave="stopSubtraction"
-                        v-on:mouseup="stopSubtraction"
-                    >-</div>
-                    <div class="dp-amount--input__btn unselectable"
-                        v-on:mousedown="startAddition"
-                        v-on:mouseleave="stopAddition"
-                        v-on:mouseup="stopAddition"
-                    >+</div>
-                </div>
-            </div>
-            <div class="dp-amount--input__right-section">
-                <template v-for="(dUnit) in duration.units">
-                    <span 
-                        class="dp-amount--input__unit unselectable"
-                        :class="{ active: dUnit === unit }"
-                        :key="dUnit"
-                        v-on:click="handleClickUnit(dUnit)"
-                    >{{ dUnit }}</span>
-                </template>
-            </div>
+    <div class="dp-amount--input__container">
+        <div class="dp-amount--input__header">
+            <div class="dp-toggle-mode" v-on:click="toggleMode">{{ mode }}</div>
+            <div class="dp-amount--input__close" v-on:click="handleCloseModal" title="close">x</div>
         </div>
-        <DurationPickerTimer v-if="startStop"/>
+        <DurationPickerEditor v-show="!toggle" :initialUnit="initialUnit" />
+        <DurationPickerChronometer v-show="toggle" />
     </div>
 </template>
 
 <script>
-import { store } from "../store.js";
-import DurationPickerTimer from "./DurationPickerTimer";
+import DurationPickerEditor from "./DurationPickerEditor";
+import DurationPickerChronometer from "./DurationPickerChronometer";
 
 export default {
 	name: "DurationPickerModal",
     components: {
-        DurationPickerTimer: DurationPickerTimer,
+        DurationPickerChronometer: DurationPickerChronometer,
+        DurationPickerEditor: DurationPickerEditor
     },
 	data: function () {
 		return {
-			duration: store.state.duration,
-			value: store.state.duration.amounts[this.initialUnit],
-            unit: this.initialUnit,
-            interval: false,
-            startStop: store.state.duration.startStop
+            mode: 'to chronometer',
+            toggle: false
 		}
 	},
 	props: {
         initialUnit: String,
         handleCloseModal: Function
-	},
-    mounted: function () {
-        this.$nextTick(function () {
-            this.$refs.input.focus();
-        });
     },
-	updated: function () {
-		this.$nextTick(function () {
-            this.$refs.input.focus();
-		})
-    },
-    computed: {
-        convertValue: function() {
-            return store.state.duration.amounts[this.unit];
+    methods: {
+        toggleMode: function() {
+            if (this.toggle) {
+                this.mode = 'to chronometer';
+            } else {
+                this.mode = 'to editor';
+            }
+            this.toggle = !this.toggle;
         }
-    },
-    watch: {
-        initialUnit: function(newVal) {
-            this.value = this.duration.amounts[newVal];
-			this.unit = newVal;
-        }
-	},
-	methods: {
-        handleKeypress: function (e) {
-            if (e.target.value.length > 3) {
-                // e.preventDefault();
-            }
-        },
-        handleInput: function (e) {
-            let value = parseInt(e.target.value, 10);
-            if (isNaN(value)) {
-                value = 0;
-            }
-            store.setDurationValue(value, this.unit);
-        },
-		handleClickUnit: function(unit) {
-            this.$refs.input.focus();
-			this.value = this.duration.amounts[unit];
-            this.unit = unit;
-        },
-        handleTabKeys: function(e) {
-            if (e.shiftKey && e.which === 9) {
-                e.preventDefault();
-                this.prevAmount();
-            } else if (e.which === 9) {
-                e.preventDefault();
-                this.nextAmount();
-            }
-        },
-		nextAmount: function() {
-            const { unit } = store.getAmountAfter(this.unit);
-            this.unit = unit;
-        },
-        prevAmount: function() {
-            const { unit } = store.getAmountBefore(this.unit);
-            this.unit = unit;
-		},
-		handleSubtraction: function () {
-            let value = parseInt(this.$refs.input.value, 10);
-            let newValue = value - 1;
-            store.setDurationValue(newValue, this.unit);
-        },
-        handleAddition: function () {
-            let value = parseInt(this.$refs.input.value, 10);
-            let newValue = value + 1;
-            store.setDurationValue(newValue, this.unit);
-		},
-        startSubtraction: function () {
-            if (!this.interval) {
-                this.handleSubtraction();
-                this.interval = setInterval(this.handleSubtraction, 180);	
-            }
-        },
-        stopSubtraction: function () {
-            clearInterval(this.interval);
-            this.interval = false;
-            this.$refs.input.focus();
-        },
-        startAddition: function () {
-            if (!this.interval) {
-                this.handleAddition();
-                this.interval = setInterval(this.handleAddition, 180);
-            }
-        },
-        stopAddition: function () {
-            clearInterval(this.interval);
-            this.interval = false;
-            this.$refs.input.focus();
-        }
-	}
+    }
 };
 </script>
