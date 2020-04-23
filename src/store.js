@@ -10,7 +10,10 @@ export const store = {
             units: null
         },
         token: null,
-        lastPositiveFormated: null
+        lastPositiveFormated: null,
+        intervals: {
+            chronometer: false
+        }
     },
     __calcDuration(amounts) {
         const momentDuration = moment.duration(amounts);
@@ -73,6 +76,12 @@ export const store = {
         }
 
         return this.state.duration.amounts[unit];
+    },
+    setCustomInterval(value, type) {
+        this.state.intervals[type] = value;
+    },
+    getCustomInterval(type) {
+        return this.state.intervals[type];
     },
     getAmountAfter(unit) {
         const index = this.state.duration.units.findIndex(el => el === unit);

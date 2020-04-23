@@ -16,7 +16,7 @@ export default {
     name: "DurationPickerChronometer",
     data: function () {
         return {
-            interval: false,
+            // interval: store.getCustomInterval('chronometer'),
             // startTime: null,
             // stopTime: null
         };
@@ -26,21 +26,24 @@ export default {
     // },
     methods: {
         startTimer: function () {
-            if (!this.interval) {
+            let interval = store.getCustomInterval('chronometer');
+            if (!interval) {
                 let startMilliseconds = store.state.duration.milliseconds;
                 let startTime = moment(new Date()).toISOString();
                 
-                this.interval = setInterval(function() {
+                let newInterval = setInterval(function() {
                     let nowTime = moment(new Date());
                     let duration = moment.duration(moment(nowTime).diff(startTime));
                     let milliseconds = duration.asMilliseconds();
                     store.setDuration(startMilliseconds + milliseconds);
                 }, 100);
+                store.setCustomInterval(newInterval, 'chronometer');
             }
         },
         stopTimer: function () {
-            clearInterval(this.interval);
-            this.interval = false;
+            let interval = store.getCustomInterval('chronometer');
+            clearInterval(interval);
+            store.setCustomInterval(false, 'chronometer');
         },
         resetTimer: function () {
             store.setDuration(0);
